@@ -44,6 +44,19 @@ public class CareSiteServiceImp implements CareSiteService {
 		else
 			return null;	
 	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public CareSite searchByLocation(Location location) {
+		EntityManager em = careSiteDao.getEntityManager();
+		String query = "SELECT t FROM CareSite t WHERE location_id like :value:";
+		List<? extends CareSite> results = em.createQuery(query, CareSite.class)
+				.setParameter("value",location.getId()).getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		} else
+			return null;
+	}
 
 	@Transactional
 	@Override
