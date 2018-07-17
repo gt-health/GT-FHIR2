@@ -1,26 +1,26 @@
 # The FHIR Project at Georgia Tech
 
-GT-FHIR is a Georgia Tech Fast Healthcare Interoperability Resources (FHIR) project to build a FHIR resource on Observational Medical Outcomes Partnership (OMOP) common data model (CDM). It is built on top of <a href="http://hapifhir.io">Hapi Fhir</a> reference implementation. Currently the objects model is built in conformance to Fhir spec DSTU2 - some features in DSTU1 are not supported.
+GT-FHIR2 is a Georgia Tech Fast Healthcare Interoperability Resources (FHIR) project to build a FHIR resource on Observational Medical Outcomes Partnership (OMOP) common data model (CDM). It is built on top of <a href="http://hapifhir.io">Hapi Fhir</a> reference implementation. Currently the objects model is built in conformance to Fhir spec STU3.
 
-The key component of GT-FHIR is a data access layer that has been modified to support any database schema. The component allows OMOP CDM to be deployed as a backend database. FHIR resources from/to OMOP CDM mapping is done at the gt-fhir-entities. However, as FHIR and OMOP CDM cannot be mapped one-to-one, some of data elements are set statically. Some mappings require multiple FHIR entity-jpa classes to support bidirectional mappings. 
+The key component of GT-FHIR2 is a data access layer that has been modified to support any database schema. The component allows OMOP CDM to be deployed as a backend database. FHIR resources from/to OMOP CDM mapping is done at the gt-fhir-entities. However, as FHIR and OMOP CDM cannot be mapped one-to-one, some of data elements are set statically. Some mappings require multiple FHIR entity-jpa classes to support bidirectional mappings. 
 
-For more detail information about the mapping, visit [**Mapping Document**](fhir_omop_mapping.md).
-
-We are constantly working on mapping new concepts and adding to new features. *Pull requests are welcome!* GT-FHIR consists of several sub-projects. Please see the following notes for what the base projects are. For more details on source codes, visit [GT-FHIR Project Github](https://github.com/gt-health/GT-FHIR).
+We are constantly working on mapping new concepts and adding to new features. *Pull requests are welcome!* GT-FHIR2 consists of several sub-projects. Please see the following notes for what the base projects are. For more details on source codes, visit [GT-FHIR Project Github](https://github.com/gt-health/GT-FHIR2).
 
 **SMART on FHIR**: GT-FHIR is also equipped to support SMART on FHIR. GT-FHIR talks to Authorization server in [SMART-on-FHIR Reference Implementation](https://github.com/smart-on-fhir/installer) for launch ID resolution. You will need to install this reference implementation of SMART on FHIR and use the Authorization server part with GT-FHIR.
 
-[Deployment scripts](https://github.com/gt-health/gt-fhir-ansible) are available in ansible. These scripts help you installing GT-FHIR and other components for a complete GT-FHIR platform.
+[Deployment scripts] GT-FHIR2 includes docker composer, which helps deploying the server in the docker container.
 
 ## People
-**FHIR** 
+**FHIR and Lead** 
  * [Myung Choi](https://github.com/myungchoi)
- * [Ismael Sarmento](https://github.com/ismael-sarmento-jr) 
 
 **OMOP CDM**
  * [Richard Starr](https://github.com/orgs/gt-health/people/rstarr7)
 
-**Deployment and Infrastructure**
+**DevOp and Deployment Support**
+ * [Eric Soto](https://github.com/soto14)
+ 
+**Infrastructure**
  * [Michael Riley](https://github.com/MikeRileyGTRI)
  
 ## Collaborators
