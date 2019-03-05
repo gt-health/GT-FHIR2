@@ -52,6 +52,7 @@ pipeline{
                 script{
                     rancher confirm: true, credentialId: 'gt-rancher-server', endpoint: 'https://gt-rancher.hdap.gatech.edu/v2-beta', environmentId: '1a7', environments: '', image: 'gt-build.hdap.gatech.edu/gtfhir2:latest', ports: '', service: 'GT-FHIR-2/gtfhir2', timeout: 50
                     rancher confirm: true, credentialId: 'gt-rancher-server', endpoint: 'https://gt-rancher.hdap.gatech.edu/v2-beta', environmentId: '1a7', environments: '', image: 'gt-build.hdap.gatech.edu/gtfhir2:latest', ports: '', service: 'MortalityReporting/gtfhir2', timeout: 50
+                    rancher confirm: true, credentialId: 'gt-rancher-server', endpoint: 'https://gt-rancher.hdap.gatech.edu/v2-beta', environmentId: '1a7', environments: '', image: 'gt-build.hdap.gatech.edu/gtfhir2:latest', ports: '', service: 'GT-FHIR-2/synpuffhirserver', timeout: 50
                 }
             }
         }

@@ -678,8 +678,8 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 			String patientIdentifier = ((TokenParam) value).getValue();
 			paramWrapper.setParameterType("String");
 			paramWrapper.setParameters(Arrays.asList("personSourceValue"));
-			paramWrapper.setOperators(Arrays.asList("like"));
-			paramWrapper.setValues(Arrays.asList("%" + patientIdentifier + "%"));
+			paramWrapper.setOperators(Arrays.asList("="));
+			paramWrapper.setValues(Arrays.asList(patientIdentifier));
 			paramWrapper.setRelationship("or");
 			mapList.add(paramWrapper);
 			break;
