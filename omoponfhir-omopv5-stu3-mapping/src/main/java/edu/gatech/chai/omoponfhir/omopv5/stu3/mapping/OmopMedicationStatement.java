@@ -57,17 +57,17 @@ import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.PatientResourceProvider;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.PractitionerResourceProvider;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.utilities.TerminologyServiceClient;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.utilities.ThrowFHIRExceptions;
-import edu.gatech.chai.omopv5.jpa.entity.Concept;
-import edu.gatech.chai.omopv5.jpa.entity.DrugExposure;
-import edu.gatech.chai.omopv5.jpa.entity.FPerson;
-import edu.gatech.chai.omopv5.jpa.entity.Provider;
-import edu.gatech.chai.omopv5.jpa.entity.VisitOccurrence;
-import edu.gatech.chai.omopv5.jpa.service.ConceptService;
-import edu.gatech.chai.omopv5.jpa.service.DrugExposureService;
-import edu.gatech.chai.omopv5.jpa.service.FPersonService;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
-import edu.gatech.chai.omopv5.jpa.service.ProviderService;
-import edu.gatech.chai.omopv5.jpa.service.VisitOccurrenceService;
+import edu.gatech.chai.omopv5.dba.service.ConceptService;
+import edu.gatech.chai.omopv5.dba.service.DrugExposureService;
+import edu.gatech.chai.omopv5.dba.service.FPersonService;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.ProviderService;
+import edu.gatech.chai.omopv5.dba.service.VisitOccurrenceService;
+import edu.gatech.chai.omopv5.model.entity.Concept;
+import edu.gatech.chai.omopv5.model.entity.DrugExposure;
+import edu.gatech.chai.omopv5.model.entity.FPerson;
+import edu.gatech.chai.omopv5.model.entity.Provider;
+import edu.gatech.chai.omopv5.model.entity.VisitOccurrence;
 
 /**
  * 

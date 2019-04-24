@@ -24,9 +24,9 @@ import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.exceptions.FHIRException;
 
 import edu.gatech.chai.omoponfhir.omopv5.stu3.mapping.OmopCodeableConceptMapping;
-import edu.gatech.chai.omopv5.jpa.entity.Concept;
-import edu.gatech.chai.omopv5.jpa.service.ConceptService;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.ConceptService;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.model.entity.Concept;
 
 public class CodeableConceptUtil {
 	public static void addCodingFromOmopConcept(CodeableConcept codeableConcept, Concept concept) throws FHIRException {

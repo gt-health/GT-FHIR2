@@ -27,9 +27,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import edu.gatech.chai.omoponfhir.local.dao.FhirOmopCodeMapImpl;
 import edu.gatech.chai.omoponfhir.local.dao.FhirOmopVocabularyMapImpl;
-import edu.gatech.chai.omopv5.jpa.entity.BaseEntity;
-import edu.gatech.chai.omopv5.jpa.service.IService;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.IService;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.model.entity.BaseEntity;
 
 public abstract class BaseOmopResource<v extends Resource, t extends BaseEntity, p extends IService<t>>
 		implements IResourceMapping<v, t> {

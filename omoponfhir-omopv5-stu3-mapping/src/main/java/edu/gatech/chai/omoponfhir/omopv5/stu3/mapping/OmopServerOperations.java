@@ -37,10 +37,10 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.model.USCorePatient;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.utilities.ExtensionUtil;
-import edu.gatech.chai.omopv5.jpa.entity.FPerson;
-import edu.gatech.chai.omopv5.jpa.service.FPersonService;
-import edu.gatech.chai.omopv5.jpa.service.MeasurementService;
-import edu.gatech.chai.omopv5.jpa.service.ObservationService;
+import edu.gatech.chai.omopv5.dba.service.FPersonService;
+import edu.gatech.chai.omopv5.dba.service.MeasurementService;
+import edu.gatech.chai.omopv5.dba.service.ObservationService;
+import edu.gatech.chai.omopv5.model.entity.FPerson;
 
 public class OmopServerOperations {
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(OmopServerOperations.class);

@@ -47,7 +47,7 @@ import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.mapping.OmopPractitioner;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.utilities.ThrowFHIRExceptions;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
 
 /**
  * This is a resource provider which stores Patient resources in memory using a

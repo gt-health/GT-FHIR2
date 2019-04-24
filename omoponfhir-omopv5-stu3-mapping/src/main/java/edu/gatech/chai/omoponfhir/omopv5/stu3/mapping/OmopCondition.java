@@ -24,8 +24,8 @@ import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.ConditionResourceProvider
 import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.EncounterResourceProvider;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.PatientResourceProvider;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.PractitionerResourceProvider;
-import edu.gatech.chai.omopv5.jpa.entity.*;
-import edu.gatech.chai.omopv5.jpa.service.*;
+import edu.gatech.chai.omopv5.dba.service.*;
+import edu.gatech.chai.omopv5.model.entity.*;
 
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.exceptions.FHIRException;

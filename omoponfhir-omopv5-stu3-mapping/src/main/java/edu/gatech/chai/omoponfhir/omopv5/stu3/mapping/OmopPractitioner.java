@@ -37,14 +37,14 @@ import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.param.TokenParam;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.PractitionerResourceProvider;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.utilities.AddressUtil;
-import edu.gatech.chai.omopv5.jpa.entity.CareSite;
-import edu.gatech.chai.omopv5.jpa.entity.Concept;
-import edu.gatech.chai.omopv5.jpa.entity.Location;
-import edu.gatech.chai.omopv5.jpa.entity.Provider;
-import edu.gatech.chai.omopv5.jpa.service.CareSiteService;
-import edu.gatech.chai.omopv5.jpa.service.LocationService;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
-import edu.gatech.chai.omopv5.jpa.service.ProviderService;
+import edu.gatech.chai.omopv5.dba.service.CareSiteService;
+import edu.gatech.chai.omopv5.dba.service.LocationService;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.ProviderService;
+import edu.gatech.chai.omopv5.model.entity.CareSite;
+import edu.gatech.chai.omopv5.model.entity.Concept;
+import edu.gatech.chai.omopv5.model.entity.Location;
+import edu.gatech.chai.omopv5.model.entity.Provider;
 
 public class OmopPractitioner extends BaseOmopResource<Practitioner, Provider, ProviderService> implements IResourceMapping<Practitioner, Provider>{
 

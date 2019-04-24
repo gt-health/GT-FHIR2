@@ -40,12 +40,12 @@ import ca.uhn.fhir.rest.param.TokenParam;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.model.MyOrganization;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.OrganizationResourceProvider;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.utilities.AddressUtil;
-import edu.gatech.chai.omopv5.jpa.entity.CareSite;
-import edu.gatech.chai.omopv5.jpa.entity.Concept;
-import edu.gatech.chai.omopv5.jpa.entity.Location;
-import edu.gatech.chai.omopv5.jpa.service.CareSiteService;
-import edu.gatech.chai.omopv5.jpa.service.LocationService;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.CareSiteService;
+import edu.gatech.chai.omopv5.dba.service.LocationService;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.model.entity.CareSite;
+import edu.gatech.chai.omopv5.model.entity.Concept;
+import edu.gatech.chai.omopv5.model.entity.Location;
 
 public class OmopOrganization extends BaseOmopResource<Organization, CareSite, CareSiteService> implements IResourceMapping<Organization, CareSite> {
 	

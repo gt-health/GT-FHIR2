@@ -54,7 +54,7 @@ import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 import ca.uhn.fhir.rest.server.exceptions.UnprocessableEntityException;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.mapping.OmopDeviceUseStatement;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.model.MyDeviceUseStatement;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
 
 public class DeviceUseStatementResourceProvider implements IResourceProvider {
 

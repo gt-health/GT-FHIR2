@@ -22,7 +22,7 @@ import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.instance.model.api.IPrimitiveType;
 
 import ca.uhn.fhir.rest.api.server.IBundleProvider;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
 
 public abstract class OmopFhirBundleProvider implements IBundleProvider {
 	InstantType searchTime;

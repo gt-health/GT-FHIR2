@@ -31,9 +31,9 @@ import org.springframework.web.context.WebApplicationContext;
 import ca.uhn.fhir.rest.param.TokenParam;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.utilities.CodeableConceptUtil;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.MedicationResourceProvider;
-import edu.gatech.chai.omopv5.jpa.entity.Concept;
-import edu.gatech.chai.omopv5.jpa.service.ConceptService;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.ConceptService;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.model.entity.Concept;
 
 public class OmopMedication extends BaseOmopResource<Medication, Concept, ConceptService>
 		implements IResourceMapping<Medication, Concept> {

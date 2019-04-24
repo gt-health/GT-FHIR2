@@ -109,8 +109,8 @@ public class FhirOmopVocabularyMapImpl extends BaseFhirOmopMap implements FhirOm
 		String sql = "SELECT * FROM FhirOmopVocabularyMap where fhir_url_system=? or other_system=?";
 
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setString(1, fhirSystemName);
-			pstmt.setString(2, fhirSystemName);
+			pstmt.setString(1, fhirSystemName.trim());
+			pstmt.setString(2, fhirSystemName.trim());
 			
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {

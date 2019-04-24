@@ -41,16 +41,16 @@ import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.EncounterResourceProvider
 import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.OrganizationResourceProvider;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.PatientResourceProvider;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.PractitionerResourceProvider;
-import edu.gatech.chai.omopv5.jpa.entity.CareSite;
-import edu.gatech.chai.omopv5.jpa.entity.Concept;
-import edu.gatech.chai.omopv5.jpa.entity.FPerson;
-import edu.gatech.chai.omopv5.jpa.entity.Provider;
-import edu.gatech.chai.omopv5.jpa.entity.VisitOccurrence;
-import edu.gatech.chai.omopv5.jpa.service.CareSiteService;
-import edu.gatech.chai.omopv5.jpa.service.FPersonService;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
-import edu.gatech.chai.omopv5.jpa.service.ProviderService;
-import edu.gatech.chai.omopv5.jpa.service.VisitOccurrenceService;
+import edu.gatech.chai.omopv5.dba.service.CareSiteService;
+import edu.gatech.chai.omopv5.dba.service.FPersonService;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.ProviderService;
+import edu.gatech.chai.omopv5.dba.service.VisitOccurrenceService;
+import edu.gatech.chai.omopv5.model.entity.CareSite;
+import edu.gatech.chai.omopv5.model.entity.Concept;
+import edu.gatech.chai.omopv5.model.entity.FPerson;
+import edu.gatech.chai.omopv5.model.entity.Provider;
+import edu.gatech.chai.omopv5.model.entity.VisitOccurrence;
 
 public class OmopEncounter extends BaseOmopResource<Encounter, VisitOccurrence, VisitOccurrenceService>
 		implements IResourceMapping<Encounter, VisitOccurrence> {

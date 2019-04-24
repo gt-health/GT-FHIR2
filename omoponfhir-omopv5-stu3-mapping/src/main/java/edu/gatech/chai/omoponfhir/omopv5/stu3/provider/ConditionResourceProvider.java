@@ -20,6 +20,7 @@ import java.util.List;
 
 import edu.gatech.chai.omoponfhir.omopv5.stu3.mapping.OmopCondition;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.utilities.ThrowFHIRExceptions;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
 
 import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.IdType;
@@ -49,8 +50,6 @@ import ca.uhn.fhir.rest.param.TokenOrListParam;
 import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
-
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
 
 /**
  * This is a simple resource provider which only implements "read/GET" methods,

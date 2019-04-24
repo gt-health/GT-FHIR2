@@ -50,7 +50,7 @@ import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 import ca.uhn.fhir.rest.server.exceptions.UnprocessableEntityException;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.mapping.OmopMedicationStatement;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
 
 public class MedicationStatementResourceProvider implements IResourceProvider {
 

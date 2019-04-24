@@ -22,7 +22,7 @@ import javax.persistence.PersistenceContextType;
 
 import org.springframework.stereotype.Repository;
 
-import edu.gatech.chai.omopv5.jpa.entity.FPerson;
+import edu.gatech.chai.omopv5.model.entity.FPerson;
 
 @Repository
 public class FPersonDao extends BaseEntityDao<FPerson> {

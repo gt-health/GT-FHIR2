@@ -18,7 +18,7 @@ package edu.gatech.chai.omopv5.jpa.dao;
 
 import org.springframework.stereotype.Repository;
 
-import edu.gatech.chai.omopv5.jpa.entity.DeviceExposure;
+import edu.gatech.chai.omopv5.model.entity.DeviceExposure;
 
 @Repository
 public class DeviceExposureDao extends BaseEntityDao<DeviceExposure> {

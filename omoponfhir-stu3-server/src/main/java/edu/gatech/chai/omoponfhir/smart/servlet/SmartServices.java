@@ -66,9 +66,16 @@ public class SmartServices extends HttpServlet {
     public void init() throws ServletException {
 		// According to SMART on FHIR folks in Harvard. They want to support both
 		// basic AUTH and bearer AUTH for the internal communication for this.
-    	url = getServletConfig().getInitParameter("introspectUrl");
-    	client_id = getServletConfig().getInitParameter("client_id");
-    	client_secret = getServletConfig().getInitParameter("client_secret");
+    	url = System.getenv("SMART_INTROSPECTURL");
+    	client_id = System.getenv("SMART_CLIENTID");
+    	client_secret = System.getenv("SMART_CLIENTSECRET");
+    	
+    	if (url == null)
+    		url = getServletConfig().getInitParameter("introspectUrl");
+    	if (client_id == null)
+    		client_id = getServletConfig().getInitParameter("client_id");
+    	if (client_secret == null) 
+    		client_secret = getServletConfig().getInitParameter("client_secret");
     	    	
 //        bookDB = (BookDBAO)getServletContext().
 //            getAttribute("bookDB");

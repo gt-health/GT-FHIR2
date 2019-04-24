@@ -185,13 +185,35 @@ public class RestfulServlet extends RestfulServer {
 		/*
 		 * OpenID check interceptor to support SMART on FHIR
 		 */
+		
+    	String url = System.getenv("SMART_INTROSPECTURL");
+    	String enable_oauth = System.getenv("SMART_ENABLEOAUTH");
+    	String client_id = System.getenv("SMART_CLIENTID");
+    	String client_secret = System.getenv("SMART_CLIENTSECRET");
+    	String read_only = System.getenv("FHIR_READONLY");
+    	String local_bypass = System.getenv("LOCAL_BYPASS");
+
+    	if (url == null) 
+    		url = getServletConfig().getInitParameter("introspectUrl");
+    	if (enable_oauth == null)
+    		enable_oauth = getServletConfig().getInitParameter("enableOAuth");
+    	if (client_id == null) 
+    		client_id = getServletConfig().getInitParameter("clientId");
+    	if (client_secret == null)
+    		client_secret = getServletConfig().getInitParameter("clientSecret");
+    	if (local_bypass == null) 
+    		local_bypass = getServletConfig().getInitParameter("localByPass");
+    	if (read_only == null) 
+    		read_only = getServletConfig().getInitParameter("readOnly");
+    	
 		OIDCInterceptor oIDCInterceptor = new OIDCInterceptor();
-		oIDCInterceptor.setIntrospectUrl(getServletConfig().getInitParameter("introspectUrl"));
-		oIDCInterceptor.setEnableOAuth(getServletConfig().getInitParameter("enableOAuth"));
-		oIDCInterceptor.setClientId(getServletConfig().getInitParameter("clientId"));
-		oIDCInterceptor.setClientSecret(getServletConfig().getInitParameter("clientSecret"));
-		oIDCInterceptor.setLocalByPass(getServletConfig().getInitParameter("localByPass"));
-		oIDCInterceptor.setReadOnly(getServletConfig().getInitParameter("readOnly"));
+		oIDCInterceptor.setIntrospectUrl(url);
+		oIDCInterceptor.setEnableOAuth(enable_oauth);
+		oIDCInterceptor.setClientId(client_id);
+		oIDCInterceptor.setClientSecret(client_secret);
+		oIDCInterceptor.setLocalByPass(local_bypass);
+		oIDCInterceptor.setReadOnly(read_only);
+		
 		registerInterceptor(oIDCInterceptor);
 		
 		/*

@@ -23,8 +23,8 @@ import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.exceptions.FHIRException;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
-import edu.gatech.chai.omopv5.jpa.entity.BaseEntity;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.model.entity.BaseEntity;
 
 public interface IResourceMapping<v extends Resource, t extends BaseEntity> {
 	public v toFHIR(IdType id);

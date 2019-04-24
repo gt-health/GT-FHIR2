@@ -35,17 +35,17 @@ import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 
-import edu.gatech.chai.omopv5.jpa.service.TransactionService;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.model.USCorePatient;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.provider.PatientResourceProvider;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.utilities.ExtensionUtil;
-import edu.gatech.chai.omopv5.jpa.entity.BaseEntity;
-import edu.gatech.chai.omopv5.jpa.entity.FPerson;
-import edu.gatech.chai.omopv5.jpa.entity.Measurement;
-import edu.gatech.chai.omopv5.jpa.service.FPersonService;
-import edu.gatech.chai.omopv5.jpa.service.MeasurementService;
-import edu.gatech.chai.omopv5.jpa.service.ObservationService;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.FPersonService;
+import edu.gatech.chai.omopv5.dba.service.MeasurementService;
+import edu.gatech.chai.omopv5.dba.service.ObservationService;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.TransactionService;
+import edu.gatech.chai.omopv5.model.entity.BaseEntity;
+import edu.gatech.chai.omopv5.model.entity.FPerson;
+import edu.gatech.chai.omopv5.model.entity.Measurement;
 
 public class OmopTransaction {
 
@@ -265,7 +265,7 @@ public class OmopTransaction {
 						}
 					} else {
 						keyString = observation.getSubject().getReference() + "^Observation";
-						edu.gatech.chai.omopv5.jpa.entity.Observation omopObservation = (edu.gatech.chai.omopv5.jpa.entity.Observation) obsEntityMap
+						edu.gatech.chai.omopv5.model.entity.Observation omopObservation = (edu.gatech.chai.omopv5.model.entity.Observation) obsEntityMap
 								.get("entity");
 						addBaseEntity(entityToCreate, keyString, omopObservation);
 					}

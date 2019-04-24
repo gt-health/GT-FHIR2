@@ -43,7 +43,7 @@ import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.mapping.OmopDevice;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.model.MyDevice;
-import edu.gatech.chai.omopv5.jpa.service.ParameterWrapper;
+import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
 
 public class DeviceResourceProvider implements IResourceProvider {
 

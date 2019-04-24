@@ -37,7 +37,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @ComponentScans(value = { @ComponentScan("edu.gatech.chai.omopv5.jpa.dao"),
-		@ComponentScan("edu.gatech.chai.omopv5.jpa.service"),
+		@ComponentScan("edu.gatech.chai.omopv5.dba.service"),
 		@ComponentScan("edu.gatech.chai.smart.jpa.dao"),
 		@ComponentScan("edu.gatech.chai.smart.jpa.service") })
 @ImportResource({
@@ -62,7 +62,7 @@ public class FhirServerConfig {
 		retVal.setPersistenceUnitName("GT-FHIR2");
 //		retVal.setDataSource(dataSource());
 		retVal.setDataSource(dataSource);
-		retVal.setPackagesToScan("edu.gatech.chai.omopv5.jpa.entity", "edu.gatech.chai.smart.jpa.entity");
+		retVal.setPackagesToScan("edu.gatech.chai.omopv5.model.entity", "edu.gatech.chai.smart.jpa.entity");
 		retVal.setPersistenceProvider(new HibernatePersistenceProvider());
 		retVal.setJpaProperties(jpaProperties());
 		return retVal;

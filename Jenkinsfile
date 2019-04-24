@@ -32,15 +32,15 @@ pipeline{
                 script{
                     docker.withRegistry('https://gt-build.hdap.gatech.edu'){
                         //Build and push the database image
-                        def databaseImage = docker.build("gtfhir2:1.0", "-f Dockerfile .")
-                        databaseImage.push('latest')
+                        def databaseImage = docker.build("gtfhir2:${env.BUILD_NUMBER}", "-f Dockerfile .")
+                        databaseImage.push("${env.BUILD_NUMBER}")
                     }
                 }
                 script{
                     docker.withRegistry('https://797827902844.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:open-mdi-credential'){
                         //Build and push the database image
-                        def openMdiImage = docker.build("om-java-ui-gtri-gt-fhir2:1.0", "-f ./Dockerfile .")
-                        openMdiImage.push('latest')
+                        def openMdiImage = docker.build("om-java-ui-gtri-gt-fhir2:${env.BUILD_NUMBER}", "-f ./Dockerfile .")
+                        openMdiImage.push("${env.BUILD_NUMBER}")
                     }
                 }
             }
@@ -50,9 +50,10 @@ pipeline{
         stage('Notify'){
             steps{
                 script{
-                    rancher confirm: true, credentialId: 'gt-rancher-server', endpoint: 'https://gt-rancher.hdap.gatech.edu/v2-beta', environmentId: '1a7', environments: '', image: 'gt-build.hdap.gatech.edu/gtfhir2:latest', ports: '', service: 'GT-FHIR-2/gtfhir2', timeout: 50
-                    rancher confirm: true, credentialId: 'gt-rancher-server', endpoint: 'https://gt-rancher.hdap.gatech.edu/v2-beta', environmentId: '1a7', environments: '', image: 'gt-build.hdap.gatech.edu/gtfhir2:latest', ports: '', service: 'MortalityReporting/gtfhir2', timeout: 50
-                    rancher confirm: true, credentialId: 'gt-rancher-server', endpoint: 'https://gt-rancher.hdap.gatech.edu/v2-beta', environmentId: '1a7', environments: '', image: 'gt-build.hdap.gatech.edu/gtfhir2:latest', ports: '', service: 'GT-FHIR-2/synpuffhirserver', timeout: 50
+                    rancher confirm: true, credentialId: 'gt-rancher-server', endpoint: 'https://gt-rancher.hdap.gatech.edu/v2-beta', environmentId: '1a7', environments: '', image: "gt-build.hdap.gatech.edu/gtfhir2:${env.BUILD_NUMBER}", ports: '', service: 'GT-FHIR-2/gtfhir2', timeout: 50
+                    rancher confirm: true, credentialId: 'gt-rancher-server', endpoint: 'https://gt-rancher.hdap.gatech.edu/v2-beta', environmentId: '1a7', environments: '', image: "gt-build.hdap.gatech.edu/gtfhir2:${env.BUILD_NUMBER}", ports: '', service: 'MortalityReporting/gtfhir2', timeout: 50
+                    rancher confirm: true, credentialId: 'gt-rancher-server', endpoint: 'https://gt-rancher.hdap.gatech.edu/v2-beta', environmentId: '1a7', environments: '', image: "gt-build.hdap.gatech.edu/gtfhir2:${env.BUILD_NUMBER}", ports: '', service: 'GT-FHIR-2/synpuffhirserver', timeout: 50
+                    rancher confirm: true, credentialId: 'gt-rancher-server', endpoint: 'https://gt-rancher.hdap.gatech.edu/v2-beta', environmentId: '1a7', environments: '', image: "gt-build.hdap.gatech.edu/gtfhir2:${env.BUILD_NUMBER}", ports: '', service: 'GT-FHIR-2/smartfhir', timeout: 50
                 }
             }
         }

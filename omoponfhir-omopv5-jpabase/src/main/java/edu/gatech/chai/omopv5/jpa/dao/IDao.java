@@ -16,7 +16,7 @@
  *******************************************************************************/
 package edu.gatech.chai.omopv5.jpa.dao;
 
-import edu.gatech.chai.omopv5.jpa.entity.BaseEntity;
+import edu.gatech.chai.omopv5.model.entity.BaseEntity;
 
 public interface IDao<T extends BaseEntity> {
 	public void add(T baseEntity);
