@@ -27,7 +27,6 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
-	<groupId>edu.gatech.chai</groupId>
 	<artifactId>omoponfhir-omopv5-stu3-mapping</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<name>omoponfhir-omopv5-stu3-mapping</name>
@@ -39,7 +38,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- This dependency includes the core HAPI-FHIR classes -->

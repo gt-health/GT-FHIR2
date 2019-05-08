@@ -25,6 +25,7 @@ import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 
+import ca.uhn.fhir.rest.api.SortSpec;
 import edu.gatech.chai.omoponfhir.local.dao.FhirOmopCodeMapImpl;
 import edu.gatech.chai.omoponfhir.local.dao.FhirOmopVocabularyMapImpl;
 import edu.gatech.chai.omopv5.dba.service.IService;
@@ -197,5 +198,16 @@ public abstract class BaseOmopResource<v extends Resource, t extends BaseEntity,
 		default:
 			return;
 		}
+	}
+	
+	public String constructOrderParams(SortSpec theSort) {
+		String direction;
+		
+		if (theSort.getOrder() != null) direction = theSort.getOrder().toString();
+		else direction = "ASC";
+
+		String orderParam = "id " + direction;
+		
+		return orderParam;
 	}
 }

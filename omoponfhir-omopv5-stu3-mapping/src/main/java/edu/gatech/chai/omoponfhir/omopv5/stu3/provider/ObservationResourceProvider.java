@@ -43,8 +43,10 @@ import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.annotation.RequiredParam;
 import ca.uhn.fhir.rest.annotation.ResourceParam;
 import ca.uhn.fhir.rest.annotation.Search;
+import ca.uhn.fhir.rest.annotation.Sort;
 import ca.uhn.fhir.rest.annotation.Update;
 import ca.uhn.fhir.rest.api.MethodOutcome;
+import ca.uhn.fhir.rest.api.SortSpec;
 import ca.uhn.fhir.rest.api.server.IBundleProvider;
 import ca.uhn.fhir.rest.param.DateParam;
 import ca.uhn.fhir.rest.param.ReferenceParam;
@@ -138,6 +140,7 @@ public class ObservationResourceProvider implements IResourceProvider {
 	@Search()
 	public IBundleProvider findObservationsById(
 			@RequiredParam(name=Observation.SP_RES_ID) TokenParam theObservationId,
+			@Sort SortSpec theSort,
 
 			@IncludeParam(allow={"Observation:based-on", "Observation:context", 
 					"Observation:device", "Observation:encounter", "Observation:patient", 
@@ -154,9 +157,12 @@ public class ObservationResourceProvider implements IResourceProvider {
 			paramList.addAll(getMyMapper().mapParameter (Observation.SP_RES_ID, theObservationId, false));
 		}
 
+		String orderParams = getMyMapper().constructOrderParams(theSort);
+
 		MyBundleProvider myBundleProvider = new MyBundleProvider(paramList, theIncludes, theReverseIncludes);
 		myBundleProvider.setTotalSize(getTotalSize(paramList));
 		myBundleProvider.setPreferredPageSize(preferredPageSize);
+		myBundleProvider.setOrderParams(orderParams);
 		return myBundleProvider;
 	}
 	
@@ -166,6 +172,7 @@ public class ObservationResourceProvider implements IResourceProvider {
 			@OptionalParam(name=Observation.SP_DATE) DateParam theDate,
 			@OptionalParam(name=Observation.SP_PATIENT, chainWhitelist={"", Patient.SP_NAME, Patient.SP_IDENTIFIER}) ReferenceParam thePatient,
 			@OptionalParam(name=Observation.SP_SUBJECT, chainWhitelist={"", Patient.SP_NAME, Patient.SP_IDENTIFIER}) ReferenceParam theSubject,
+			@Sort SortSpec theSort,
 
 			@IncludeParam(allow={"Observation:based-on", "Observation:context", 
 					"Observation:device", "Observation:encounter", "Observation:patient", 
@@ -224,9 +231,12 @@ public class ObservationResourceProvider implements IResourceProvider {
 			}
 		}
 		
+		String orderParams = getMyMapper().constructOrderParams(theSort);
+
 		MyBundleProvider myBundleProvider = new MyBundleProvider(paramList, theIncludes, theReverseIncludes);
 		myBundleProvider.setTotalSize(getTotalSize(paramList));
 		myBundleProvider.setPreferredPageSize(preferredPageSize);
+		myBundleProvider.setOrderParams(orderParams);
 		return myBundleProvider;
 	}
 	
@@ -295,9 +305,9 @@ public class ObservationResourceProvider implements IResourceProvider {
 			throw new UnprocessableEntityException(FhirContext.forDstu3(), outcome);
 		}
 		
-		String subjectId = subjectReference.getId();
-		if (!subjectId.contentEquals("Patient")) {
-			detailCode.setText("Subject must be Patient resource for OmopOnFHIR");
+		String subjectResource = subjectReference.getReferenceElement().getResourceType();
+		if (!subjectResource.contentEquals("Patient")) {
+			detailCode.setText("Subject ("+subjectResource+") must be Patient resource for OmopOnFHIR");
 			outcome.addIssue().setSeverity(IssueSeverity.FATAL).setDetails(detailCode);
 			throw new UnprocessableEntityException(FhirContext.forDstu3(), outcome);
 		}
@@ -363,9 +373,9 @@ public class ObservationResourceProvider implements IResourceProvider {
 			}
 
 			if (paramList.size() == 0) {
-				getMyMapper().searchWithoutParams(fromIndex, toIndex, retv, includes, null);
+				getMyMapper().searchWithoutParams(fromIndex, toIndex, retv, includes, orderParams);
 			} else {
-				getMyMapper().searchWithParams(fromIndex, toIndex, paramList, retv, includes, null);
+				getMyMapper().searchWithParams(fromIndex, toIndex, paramList, retv, includes, orderParams);
 			}
 
 			return retv;

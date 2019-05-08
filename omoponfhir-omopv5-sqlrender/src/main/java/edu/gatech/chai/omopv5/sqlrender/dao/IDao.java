@@ -19,8 +19,8 @@ package edu.gatech.chai.omopv5.sqlrender.dao;
 import edu.gatech.chai.omopv5.model.entity.BaseEntity;
 
 public interface IDao<T extends BaseEntity> {
-	public void add(T baseEntity);
-	public void merge(T baseEntity);
+	public void add(String sql);
+	public void merge(String sql);
 	public T findById(Class<T> entityClass, Long id);
 	public Long delete(Class<T> entityClass, Long id);
 	public void rollback();

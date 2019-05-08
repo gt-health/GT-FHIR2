@@ -95,7 +95,7 @@
 		<!-- Dependency Versions -->
 		<derby_version>10.14.2.0</derby_version>
 		<jersey_version>2.25.1</jersey_version>
-		<jetty_version>9.4.12.v20180830</jetty_version>
+		<jetty_version>9.4.17.v20190418</jetty_version>
 		<hibernate_version>5.3.1.Final</hibernate_version>
 		<hibernate_validator_version>5.4.1.Final</hibernate_validator_version>
 		<!-- Update lucene version when you update hibernate-search version -->
@@ -1030,7 +1030,7 @@
 						<dependency>
 							<groupId>com.puppycrawl.tools</groupId>
 							<artifactId>checkstyle</artifactId>
-							<version>6.17</version>
+							<version>[8.18,)</version>
 						</dependency>
 					</dependencies>
 					<configuration>

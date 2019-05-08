@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 
+import ca.uhn.fhir.rest.api.SortSpec;
 import ca.uhn.fhir.rest.param.DateParam;
 import ca.uhn.fhir.rest.param.ParamPrefixEnum;
 import ca.uhn.fhir.rest.param.TokenParam;
@@ -874,6 +875,37 @@ public class OmopObservation extends BaseOmopResource<Observation, FObservationV
 		} else {
 			return measurementService.removeById(myId);
 		}
+	}
+	
+	@Override
+	public String constructOrderParams(SortSpec theSort) {
+		if (theSort == null) return null;
+		
+		String direction;
+		
+		if (theSort.getOrder() != null) direction = theSort.getOrder().toString();
+		else direction = "ASC";
+
+		String orderParam = new String(); 
+		
+		if (theSort.getParamName().equals(Observation.SP_CODE)) {
+			orderParam = "observationConcept.conceptCode " + direction;
+		} else if (theSort.getParamName().equals(Observation.SP_DATE)) {
+			orderParam = "date " + direction;
+		} else if (theSort.getParamName().equals(Observation.SP_PATIENT) 
+				|| theSort.getParamName().equals(Observation.SP_SUBJECT)) {
+			orderParam = "fPerson.id " + direction;
+		} else {
+			orderParam = "id " + direction;
+		}
+
+		String orderParams = orderParam;
+		
+		if (theSort.getChain() != null) { 
+			orderParams = orderParams.concat(","+constructOrderParams(theSort.getChain()));
+		}
+		
+		return orderParams;
 	}
 
 	public List<Measurement> constructOmopMeasurement(Long omopId, Observation fhirResource, String system,

@@ -29,6 +29,7 @@ public abstract class OmopFhirBundleProvider implements IBundleProvider {
 	List<ParameterWrapper> paramList;
 	Integer preferredPageSize;
 	Integer totalSize;
+	String orderParams = null;
 
 	public OmopFhirBundleProvider (List<ParameterWrapper> paramList) {
 		this.searchTime = InstantType.withCurrentTime();
@@ -64,4 +65,12 @@ public abstract class OmopFhirBundleProvider implements IBundleProvider {
 		return this.totalSize;
 	}
 
+	public String getOrderParams() {
+		return this.orderParams;
+	}
+	
+	public void setOrderParams(String orderParams) {
+		this.orderParams = orderParams;
+	}
+	
 }

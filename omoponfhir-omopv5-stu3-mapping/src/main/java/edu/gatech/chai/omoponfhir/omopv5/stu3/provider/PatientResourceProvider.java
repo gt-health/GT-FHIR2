@@ -147,25 +147,25 @@ public class PatientResourceProvider implements IResourceProvider {
 		}
 	}
 
-	private String constructOrderParams(SortSpec theSort) {
-		if (theSort == null) return null;
-		
-		String orderParams = new String();
-		String direction;
-		
-		if (theSort.getOrder() != null) direction = theSort.getOrder().toString();
-		else direction = "ASC";
-
-		String orderParam = getMyMapper().constructSort(theSort.getParamName(), direction);
-		if (orderParams.isEmpty()) orderParams = orderParams.concat(orderParam);
-		else orderParams = orderParams.concat(","+orderParam);
-		
-		if (theSort.getChain() != null) { 
-			orderParams = orderParams.concat(constructOrderParams(theSort.getChain()));
-		}
-		
-		return orderParams;
-	}
+//	private String constructOrderParams(SortSpec theSort) {
+//		if (theSort == null) return null;
+//		
+//		String orderParams = new String();
+//		String direction;
+//		
+//		if (theSort.getOrder() != null) direction = theSort.getOrder().toString();
+//		else direction = "ASC";
+//
+//		String orderParam = getMyMapper().constructSort(theSort.getParamName(), direction);
+//		if (orderParams.isEmpty()) orderParams = orderParams.concat(orderParam);
+//		else orderParams = orderParams.concat(","+orderParam);
+//		
+//		if (theSort.getChain() != null) { 
+//			orderParams = orderParams.concat(constructOrderParams(theSort.getChain()));
+//		}
+//		
+//		return orderParams;
+//	}
 	
 	/**
 	 * The "@Search" annotation indicates that this method supports the search
@@ -282,7 +282,7 @@ public class PatientResourceProvider implements IResourceProvider {
 			}
 		}
 		
-		String orderParams = constructOrderParams(theSort);
+		String orderParams = getMyMapper().constructOrderParams(theSort);
 		System.out.println("MYSORT!!! "+orderParams);
 
 		MyBundleProvider myBundleProvider = new MyBundleProvider(paramList, theIncludes, theReverseIncludes);
@@ -421,7 +421,7 @@ public class PatientResourceProvider implements IResourceProvider {
 	class MyBundleProvider extends OmopFhirBundleProvider implements IBundleProvider {
 		Set<Include> theIncludes;
 		Set<Include> theReverseIncludes;
-		String orderParams = null;
+//		String orderParams = null;
 
 		public MyBundleProvider(List<ParameterWrapper> paramList, Set<Include> theIncludes,
 				Set<Include> theReverseIncludes) {
@@ -431,14 +431,14 @@ public class PatientResourceProvider implements IResourceProvider {
 			this.theReverseIncludes = theReverseIncludes;
 		}
 
-		public String getOrderParams() {
-			return this.orderParams;
-		}
-		
-		public void setOrderParams(String orderParams) {
-			this.orderParams = orderParams;
-		}
-		
+//		public String getOrderParams() {
+//			return this.orderParams;
+//		}
+//		
+//		public void setOrderParams(String orderParams) {
+//			this.orderParams = orderParams;
+//		}
+//		
 		@Override
 		public List<IBaseResource> getResources(int fromIndex, int toIndex) {
 			List<IBaseResource> retv = new ArrayList<IBaseResource>();

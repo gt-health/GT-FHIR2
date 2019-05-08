@@ -21,10 +21,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.client.interceptor.BasicAuthInterceptor;
 import ca.uhn.fhir.rest.client.interceptor.BearerTokenAuthInterceptor;
 import ca.uhn.fhir.rest.server.util.ITestingUiClientFactory;
 
-public class MyBearerTokenClientFactory implements ITestingUiClientFactory {
+public class MyAuthClientFactory implements ITestingUiClientFactory {
 
 	@Override
 	public IGenericClient newClient(FhirContext theFhirContext, HttpServletRequest theRequest,
@@ -33,12 +34,31 @@ public class MyBearerTokenClientFactory implements ITestingUiClientFactory {
 		IGenericClient client = theFhirContext.newRestfulGenericClient(theServerBaseUrl);
 
 		String apiKey = theRequest.getParameter("apiKey");
+		String authType = System.getenv("AUTH_TYPE");
+		if (authType != null && !authType.isEmpty()) {
+			if (authType.startsWith("Basic ") || authType.startsWith("basic ")) {
+				// Basic Auth
+				String basicAuth = authType.substring(6);
+				String[] basicCredential = basicAuth.split(":");
+				if (basicCredential.length == 2) {
+					// Bust have two parameters
+					String username = basicCredential[0];
+					String password = basicCredential[1];
+					
+					client.registerInterceptor(new BasicAuthInterceptor(username, password));
+				}
+			} else if (authType.startsWith("Bearer ") || authType.startsWith("bearer ")) {
+				// Bearer API key. This overwrites the apiKey from theRequest parameter
+			}
+		}
+		
 		if (isNotBlank(apiKey)) {
 			client.registerInterceptor(new BearerTokenAuthInterceptor(apiKey));
-		}
-
+		} 
+		
 //		theFhirContext.getRestfulClientFactory().setConnectionRequestTimeout(600000);
 		theFhirContext.getRestfulClientFactory().setSocketTimeout(600000);
+		
 		return client;
 	}
 

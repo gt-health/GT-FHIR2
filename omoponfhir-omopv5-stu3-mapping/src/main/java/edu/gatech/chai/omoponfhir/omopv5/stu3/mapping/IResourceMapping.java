@@ -23,6 +23,7 @@ import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.exceptions.FHIRException;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
+import ca.uhn.fhir.rest.api.SortSpec;
 import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
 import edu.gatech.chai.omopv5.model.entity.BaseEntity;
 
@@ -41,4 +42,6 @@ public interface IResourceMapping<v extends Resource, t extends BaseEntity> {
 	public List<ParameterWrapper> mapParameter(String parameter, Object value, boolean or);
 	public v constructFHIR(Long fhirId, t entity);
 	public t constructOmop(Long omopId, v fhirResource);
+	
+	public String constructOrderParams(SortSpec theSort);
 }

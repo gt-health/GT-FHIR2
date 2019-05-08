@@ -46,6 +46,7 @@ import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 
+import ca.uhn.fhir.rest.api.SortSpec;
 import ca.uhn.fhir.rest.param.DateParam;
 import ca.uhn.fhir.rest.param.ParamPrefixEnum;
 import ca.uhn.fhir.rest.param.StringParam;
@@ -182,7 +183,42 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 		String personSourceValue = fPerson.getPersonSourceValue();
 		if (personSourceValue != null && !personSourceValue.isEmpty() && personSourceValue.trim() != "") {
 			Identifier identifier = new Identifier();
-			identifier.setValue(personSourceValue.trim());
+			String[] personIdentifier = personSourceValue.trim().split("\\^");
+			if (personIdentifier.length == 1) {
+				// There is no ^ delimiter found from string. First one is just value.
+				identifier.setValue(personIdentifier[0]);
+			} else {
+				String omopVoc = personIdentifier[0];
+				String system = fhirOmopVocabularyMap.getFhirSystemNameFromOmopVocabulary(omopVoc);
+				String value = new String();
+
+				if (personIdentifier.length > 2) {
+					// if the length is more than 2, it means we have to set type not system.
+					String code = personIdentifier[1];
+					CodeableConcept typeCodeable = new CodeableConcept();
+					Coding typeCoding = new Coding();
+					if (!"None".equals(system)) {
+						typeCoding.setSystem(system);
+					}
+					typeCoding.setCode(code);
+					typeCodeable.addCoding(typeCoding);
+					identifier.setType(typeCodeable);
+
+					for (int i = 2; i < personIdentifier.length; i++) {
+						value = value.concat(personIdentifier[i]);
+					}
+
+				} else {
+					// This must be length = 2. And, we set system.
+					if (!"None".equals(system)) {
+						identifier.setSystem(system);
+					}
+					value = personIdentifier[1];
+				}
+				identifier.setValue(value);
+			}
+
+//			identifier.setValue(personSourceValue.trim());
 			patient.addIdentifier(identifier);
 		}
 
@@ -335,7 +371,7 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 			myRace.getCategory().add(raceCoding);
 			patient.setRace(myRace);
 		}
-		
+
 		// Ethnicity
 		Concept ethnicityConcept = fPerson.getEthnicityConcept();
 		String ethnicitySourceString = fPerson.getEthnicitySourceValue();
@@ -350,14 +386,48 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 				ethnicityCoding = fhirOmopCodeMap.getFhirCodingFromOmopConcept(ethnicityConceptId);
 			}
 		}
-		
+
 		if (ethnicityCoding != null) {
 			Ethnicity myEthnicity = patient.getEthnicity();
 			myEthnicity.getCategory().add(ethnicityCoding);
 			patient.setEthnicity(myEthnicity);
 		}
-		
+
 		return patient;
+	}
+
+	private String getPersonSourceValue(Identifier identifier) {
+		String value = identifier.getValue();
+		String system = identifier.getSystem();
+
+		String personSourceValue = value;
+
+		if (system != null && !system.isEmpty()) {
+			String omopVoc = fhirOmopVocabularyMap.getOmopVocabularyFromFhirSystemName(system);
+			if (!"None".equals(omopVoc)) {
+				personSourceValue = omopVoc + "^" + value;
+			}
+		} else {
+			// if system is null or empty, then we check type.
+			// type is codeable concept. We put systemUri and code with ^ delimiter
+			CodeableConcept typeCodeableConcept = identifier.getType();
+			if (typeCodeableConcept != null && !typeCodeableConcept.isEmpty()) {
+				for (Coding coding : typeCodeableConcept.getCoding()) {
+					if (coding != null && !coding.isEmpty()) {
+						String systemUri = coding.getSystem();
+						String code = coding.getCode();
+						String omopVoc = fhirOmopVocabularyMap
+								.getOmopVocabularyFromFhirSystemName(systemUri + "^" + code);
+						if (!"None".equals(omopVoc)) {
+							// We found something from internal mapping.
+							personSourceValue = omopVoc + "^" + personSourceValue;
+						}
+					}
+				}
+			}
+		}
+
+		return personSourceValue;
 	}
 
 	/**
@@ -379,52 +449,6 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 			if (omopId == null) {
 				// Invalid fhirId.
 				return null;
-			}
-		} else {
-			// In OMOP, we have person source column.
-			// We will use identifier field as our source column if exists. The
-			// identifier better identifies the identity of this resource across
-			// all servers that may have this copy.
-			//
-			// Identifier has many fields. We can't have them all in OMOP. We
-			// only have string field and size is very limited. So, for now,
-			// we only get value part.
-			List<Identifier> identifiers = patient.getIdentifier();
-			FPerson person = null;
-			String personSourceValue = null;
-			for (Identifier identifier : identifiers) {
-				if (identifier.getValue().isEmpty() == false) {
-					personSourceValue = identifier.getValue();
-					CodeableConcept typeCodeableConcept = identifier.getType();
-					if (typeCodeableConcept != null && !typeCodeableConcept.isEmpty()) {
-						for (Coding coding : typeCodeableConcept.getCoding()) {
-							if (coding != null && !coding.isEmpty()) {
-								String systemUri = coding.getSystem();
-								Object code = coding.getCode();
-								if (systemUri.equals("http://hl7.org/fhir/v2/0203")) {
-									if (code.equals("MR")) {
-										personSourceValue = "MR:" + personSourceValue;
-									} else if (code.equals("SS")) {
-										personSourceValue = "SS:" + personSourceValue;
-									}
-								}
-							}
-
-						}
-					}
-
-					// See if we have existing patient
-					// with this identifier.
-					List<FPerson> listPatient = getMyOmopService().searchByColumnString("personSourceValue",
-							personSourceValue);
-					if (listPatient != null && listPatient.size() > 0) {
-						person = listPatient.get(0);
-					}
-					if (person != null) {
-						omopId = person.getId();
-						break;
-					}
-				}
 			}
 		}
 
@@ -761,22 +785,64 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 		return mapList;
 	}
 
-	public String constructSort(String sp, String direction) {
-		String retv;
-		if (sp.equals(Patient.SP_FAMILY)) {
-			retv = "familyName " + direction;
-		} else if (sp.equals(Patient.SP_GIVEN)) {
-			retv = "givenName1 " + direction + ",givenName2 " + direction;
-		} else if (sp.equals(Patient.SP_GENDER)) {
-			retv = "genderConcept " + direction;
-		} else if (sp.equals(Patient.SP_BIRTHDATE)) {
-			retv = "yearOfBirth " + direction + ",monthOfBirth " + direction + ",dayOfBirth " + direction
+//	@Override
+//	public String constructSort(String sp, String direction) {
+//		String retv;
+//		if (sp.equals(Patient.SP_FAMILY)) {
+//			retv = "familyName " + direction;
+//		} else if (sp.equals(Patient.SP_GIVEN)) {
+//			retv = "givenName1 " + direction + ",givenName2 " + direction;
+//		} else if (sp.equals(Patient.SP_GENDER)) {
+//			retv = "genderConcept " + direction;
+//		} else if (sp.equals(Patient.SP_BIRTHDATE)) {
+//			retv = "yearOfBirth " + direction + ",monthOfBirth " + direction + ",dayOfBirth " + direction
+//					+ ",timeOfBirth " + direction;
+//		} else {
+//			retv = "id " + direction;
+//		}
+//
+//		return retv;
+//	}
+//
+
+	@Override
+	public String constructOrderParams(SortSpec theSort) {
+		if (theSort == null)
+			return null;
+
+//		String orderParams = new String();
+		String direction;
+
+		if (theSort.getOrder() != null)
+			direction = theSort.getOrder().toString();
+		else
+			direction = "ASC";
+
+		String orderParam = new String(); // getMyMapper().constructSort(theSort.getParamName(), direction);
+
+		if (theSort.getParamName().equals(Patient.SP_FAMILY)) {
+			orderParam = "familyName " + direction;
+		} else if (theSort.getParamName().equals(Patient.SP_GIVEN)) {
+			orderParam = "givenName1 " + direction + ",givenName2 " + direction;
+		} else if (theSort.getParamName().equals(Patient.SP_GENDER)) {
+			orderParam = "genderConcept " + direction;
+		} else if (theSort.getParamName().equals(Patient.SP_BIRTHDATE)) {
+			orderParam = "yearOfBirth " + direction + ",monthOfBirth " + direction + ",dayOfBirth " + direction
 					+ ",timeOfBirth " + direction;
 		} else {
-			retv = "id " + direction;
+			orderParam = "id " + direction;
 		}
 
-		return retv;
+//		if (orderParams.isEmpty()) orderParams = orderParams.concat(orderParam);
+//		else orderParams = orderParams.concat(","+orderParam);
+
+		String orderParams = orderParam;
+
+		if (theSort.getChain() != null) {
+			orderParams = orderParams.concat("," + constructOrderParams(theSort.getChain()));
+		}
+
+		return orderParams;
 	}
 
 	@Override
@@ -785,31 +851,26 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 		String personSourceValue = null;
 
 		List<Identifier> identifiers = patient.getIdentifier();
-		String MRN = null;
-		String SSN = null;
+		boolean first = true;
 		for (Identifier identifier : identifiers) {
 			if (identifier.getValue().isEmpty() == false) {
-				personSourceValue = identifier.getValue();
-				CodeableConcept typeCodeableConcept = identifier.getType();
-				if (typeCodeableConcept != null && !typeCodeableConcept.isEmpty()) {
-					for (Coding coding : typeCodeableConcept.getCoding()) {
-						if (coding != null && !coding.isEmpty()) {
-							String systemUri = coding.getSystem();
-							Object code = coding.getCode();
-							if (systemUri.equals("http://hl7.org/fhir/v2/0203")) {
-								if (code.equals("MR")) {
-									MRN = personSourceValue;
-									personSourceValue = "MR:" + personSourceValue;
-								} else if (code.equals("SS")) {
-									SSN = personSourceValue;
-									personSourceValue = "SS:" + personSourceValue;
-								}
-							}
-						}
-
-					}
+				String personSourceValueTemp = getPersonSourceValue(identifier);
+				if (first) {
+					personSourceValue = personSourceValueTemp;
+					first = false;
 				}
 
+				if (personSourceValueTemp != null) {
+					List<FPerson> fPersons = getMyOmopService().searchByColumnString("personSourceValue",
+							personSourceValueTemp);
+					if (fPersons.size() > 0) {
+						fperson = fPersons.get(0);
+						omopId = fperson.getId();
+						fperson = new FPerson();
+
+						break;
+					}
+				}
 			}
 		}
 
@@ -823,23 +884,12 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 					e.printStackTrace();
 				}
 			}
-		} else {
-			if (personSourceValue != null) {
-				List<FPerson> fPersons = getMyOmopService().searchByColumnString("personSourceValue",
-						personSourceValue);
-				if (fPersons.size() > 0) {
-					fperson = fPersons.get(0);
-				}
-			}
-
-			if (fperson == null)
-				fperson = new FPerson();
 		}
 
 		if (personSourceValue != null) {
 			fperson.setPersonSourceValue(personSourceValue);
-			if (SSN != null) {
-				fperson.setSsn(SSN);
+			if (personSourceValue.startsWith("SS^")) {
+				fperson.setSsn(personSourceValue.substring("SS^".length()));
 			}
 		}
 
@@ -971,7 +1021,7 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 		Race myRace = patient.getRace();
 		Concept omopRaceConcept = new Concept(8552L);
 		if (!myRace.isEmpty()) {
-			for (Coding myCategory: myRace.getCategory()) {
+			for (Coding myCategory : myRace.getCategory()) {
 				Long omopRaceConceptId = fhirOmopCodeMap.getOmopCodeFromFhirCoding(myCategory);
 				fperson.setRaceSourceValue(myCategory.getDisplay());
 				if (omopRaceConceptId != 0L) {
@@ -979,14 +1029,14 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 					break;
 				}
 			}
-		} 
+		}
 		fperson.setRaceConcept(omopRaceConcept);
-		
+
 		// Do extension for ethnicity.
 		Ethnicity myEthnicity = patient.getEthnicity();
 		Concept omopEthnicityConcept = new Concept(0L);
 		if (!myEthnicity.isEmpty()) {
-			for (Coding myCategory: myEthnicity.getCategory()) {
+			for (Coding myCategory : myEthnicity.getCategory()) {
 				Long omopEthnicityConceptId = fhirOmopCodeMap.getOmopCodeFromFhirCoding(myCategory);
 				fperson.setEthnicitySourceValue(myCategory.getDisplay());
 				if (omopEthnicityConceptId != 0L) {

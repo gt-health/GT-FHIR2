@@ -98,8 +98,8 @@
 			<param-value>http://docker.for.mac.localhost:8060/introspect</param-value>
 		</init-param>
 		<init-param>
-			<param-name>enableOAuth</param-name>
-			<param-value>False</param-value>
+			<param-name>authType</param-name>
+			<param-value>None</param-value>
 		</init-param>
 		<init-param>
 			<param-name>clientId</param-name>
@@ -109,10 +109,12 @@
 			<param-name>clientSecret</param-name>
 			<param-value>secret</param-value>
 		</init-param>
+<!-- 
 		<init-param>
 			<param-name>localByPass</param-name>
 			<param-value>True</param-value>
 		</init-param>
+ -->
 		<init-param>
 			<param-name>readOnly</param-name>
 			<param-value>True</param-value>
