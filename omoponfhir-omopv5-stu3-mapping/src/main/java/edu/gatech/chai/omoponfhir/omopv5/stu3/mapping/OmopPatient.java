@@ -699,11 +699,31 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 			mapList.add(paramWrapper);
 			break;
 		case Patient.SP_IDENTIFIER:
-			String patientIdentifier = ((TokenParam) value).getValue();
+			String identifierSystem = ((TokenParam) value).getSystem();
+			String identifierValue = ((TokenParam) value).getValue();
+
+			String searchString = identifierValue;
+			if (identifierSystem != null && !identifierSystem.isEmpty()) {
+				String omopVocabId = fhirOmopVocabularyMap.getOmopVocabularyFromFhirSystemName(identifierSystem);
+				if (!"None".equals(omopVocabId)) {
+					searchString = omopVocabId + "^" + searchString;
+				}
+			}
+
 			paramWrapper.setParameterType("String");
 			paramWrapper.setParameters(Arrays.asList("personSourceValue"));
-			paramWrapper.setOperators(Arrays.asList("="));
-			paramWrapper.setValues(Arrays.asList(patientIdentifier));
+			if (identifierValue == null || identifierValue.trim().isEmpty()) {
+				// We are only searching by system. So, we should select with % after system
+				// name.
+				paramWrapper.setOperators(Arrays.asList("like"));
+				paramWrapper.setValues(Arrays.asList(searchString + "%"));
+			} else if (identifierSystem == null || identifierSystem.isEmpty()) {
+				paramWrapper.setOperators(Arrays.asList("like"));
+				paramWrapper.setValues(Arrays.asList("%"+searchString));				
+			} else {
+				paramWrapper.setOperators(Arrays.asList("="));
+				paramWrapper.setValues(Arrays.asList(searchString));
+			}
 			paramWrapper.setRelationship("or");
 			mapList.add(paramWrapper);
 			break;

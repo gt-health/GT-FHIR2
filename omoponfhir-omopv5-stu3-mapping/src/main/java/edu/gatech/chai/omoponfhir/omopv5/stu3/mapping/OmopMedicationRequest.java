@@ -313,27 +313,31 @@ public class OmopMedicationRequest extends BaseOmopResource<MedicationRequest, D
 			String omopVocabulary = "None";
 			if (system != null && !system.isEmpty()) {
 				try {
-					omopVocabulary = OmopCodeableConceptMapping.omopVocabularyforFhirUri(system);
+//					omopVocabulary = OmopCodeableConceptMapping.omopVocabularyforFhirUri(system);
+					omopVocabulary = fhirOmopVocabularyMap.getOmopVocabularyFromFhirSystemName(system);
 				} catch (FHIRException e) {
 					e.printStackTrace();
+					break;
 				}
-			} 
+			}
 
 			paramWrapper.setParameterType("String");
 			if ("None".equals(omopVocabulary) && code != null && !code.isEmpty()) {
 				paramWrapper.setParameters(Arrays.asList("drugConcept.conceptCode"));
 				paramWrapper.setOperators(Arrays.asList("like"));
 				paramWrapper.setValues(Arrays.asList(code));
+				paramWrapper.setRelationship("or");
 			} else if (!"None".equals(omopVocabulary) && (code == null || code.isEmpty())) {
 				paramWrapper.setParameters(Arrays.asList("drugConcept.vocabulary.id"));
 				paramWrapper.setOperators(Arrays.asList("like"));
-				paramWrapper.setValues(Arrays.asList(omopVocabulary));				
+				paramWrapper.setValues(Arrays.asList(omopVocabulary));
+				paramWrapper.setRelationship("or");
 			} else {
 				paramWrapper.setParameters(Arrays.asList("drugConcept.vocabulary.id", "drugConcept.conceptCode"));
 				paramWrapper.setOperators(Arrays.asList("like","like"));
 				paramWrapper.setValues(Arrays.asList(omopVocabulary, code));
+				paramWrapper.setRelationship("and");
 			}
-			paramWrapper.setRelationship("and");
 			mapList.add(paramWrapper);
 			break;
 		case MedicationRequest.SP_CONTEXT:

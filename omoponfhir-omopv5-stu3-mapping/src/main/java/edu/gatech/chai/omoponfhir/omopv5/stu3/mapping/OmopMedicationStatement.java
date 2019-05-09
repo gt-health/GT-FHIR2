@@ -473,7 +473,8 @@ public class OmopMedicationStatement extends BaseOmopResource<MedicationStatemen
 			} else {
 				if (system != null && !system.isEmpty()) {
 					try {
-						omopVocabulary = OmopCodeableConceptMapping.omopVocabularyforFhirUri(system);
+//						omopVocabulary = OmopCodeableConceptMapping.omopVocabularyforFhirUri(system);
+						omopVocabulary = fhirOmopVocabularyMap.getOmopVocabularyFromFhirSystemName(system);
 					} catch (FHIRException e) {
 						e.printStackTrace();
 					}

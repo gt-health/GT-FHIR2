@@ -252,9 +252,9 @@ public class ParameterWrapper {
 						}
 					} else if (oper.equalsIgnoreCase("in")) {
 						if (param.getRelationship() == null || param.getRelationship().equals("or")) {
-							subWhere = builder.or(subWhere, builder.notLike(path, valueName));
+							subWhere = builder.or(subWhere, builder.like(path, valueName));
 						} else {
-							subWhere = builder.and(subWhere, builder.notLike(path, valueName));
+							subWhere = builder.and(subWhere, builder.like(path, valueName));
 						}
 					} else {
 						if (param.getRelationship() == null || param.getRelationship().equals("or")) {
