@@ -99,6 +99,14 @@ public abstract class BaseOmopResource<v extends Resource, t extends BaseEntity,
 		return fhirResource;
 	}
 
+	public FhirOmopVocabularyMapImpl getFhirOmopVocabularyMap() {
+		return this.fhirOmopVocabularyMap;
+	}
+	
+	public FhirOmopCodeMapImpl getFhirOmopCodeMap() {
+		return this.fhirOmopCodeMap;
+	}
+	
 	// This needs to be overridden at every Omop[x] class.
 //	public v constructFHIR(Long fhirId, t entity) {
 //		return null;

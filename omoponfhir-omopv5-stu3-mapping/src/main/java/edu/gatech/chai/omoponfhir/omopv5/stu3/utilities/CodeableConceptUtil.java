@@ -23,6 +23,8 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.exceptions.FHIRException;
 
+import edu.gatech.chai.omoponfhir.local.dao.FhirOmopVocabularyMapImpl;
+import edu.gatech.chai.omoponfhir.omopv5.stu3.mapping.BaseOmopResource;
 import edu.gatech.chai.omoponfhir.omopv5.stu3.mapping.OmopCodeableConceptMapping;
 import edu.gatech.chai.omopv5.dba.service.ConceptService;
 import edu.gatech.chai.omopv5.dba.service.ParameterWrapper;
@@ -38,6 +40,17 @@ public class CodeableConceptUtil {
 		coding.setDisplay(concept.getName());
 		
 		codeableConcept.addCoding(coding);
+	}
+	
+	public static Coding getCodingFromOmopConcept(Concept concept, FhirOmopVocabularyMapImpl fhirOmopVocabularyMap) throws FHIRException {
+		String fhirUri = fhirOmopVocabularyMap.getFhirSystemNameFromOmopVocabulary(concept.getVocabulary().getId());
+		
+		Coding coding = new Coding();
+		coding.setSystem(fhirUri);
+		coding.setCode(concept.getConceptCode());
+		coding.setDisplay(concept.getName());
+
+		return coding;
 	}
 	
 	public static CodeableConcept getCodeableConceptFromOmopConcept(Concept concept) throws FHIRException {

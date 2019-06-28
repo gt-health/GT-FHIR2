@@ -20,6 +20,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -40,17 +42,19 @@ public class ConceptRelationship extends BaseEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@ManyToOne
-	@JoinColumn(name="concept_id_1")
-	private Concept concept1;
+	@EmbeddedId
+    private ConceptRelationshipPK id;
 	
-	@ManyToOne
-	@JoinColumn(name="concept_id_2")
-	private Concept concept2;
-	
-	@Column(name="relationship_id")
-	private String relationshipId;
+//	@ManyToOne
+//	@JoinColumn(name="concept_id_1")
+//	private Concept concept1;
+//	
+//	@ManyToOne
+//	@JoinColumn(name="concept_id_2")
+//	private Concept concept2;
+//	
+//	@Column(name="relationship_id")
+//	private String relationshipId;
 	
 	@Column(name="valid_start_date")
 	private Date validStartDate;
@@ -63,8 +67,42 @@ public class ConceptRelationship extends BaseEntity implements Serializable {
 
 	@Override
 	public Long getIdAsLong() {
-		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public ConceptRelationshipPK getId() {
+		return this.id;
+	}
+	
+	public void setId(ConceptRelationshipPK id) {
+		this.id = id;
+	}
 
+	public ConceptRelationship() {
+		super();
+	}
+	
+	public Date getValidStartDate() {
+		return this.validStartDate;
+	}
+	
+	public void setValidStartDate(Date validStartDate) {
+		this.validStartDate = validStartDate;
+	}
+	
+	public Date getValidEndDate() {
+		return this.validEndDate;
+	}
+	
+	public void setValidEndDate(Date validEndDate) {
+		this.validEndDate =validEndDate;
+	}
+	
+	public String getInvalidReason() {
+		return this.invalidReason;
+	}
+	
+	public void setInvalidReason(String invalidReason) {
+		this.invalidReason = invalidReason;
+	}
 }

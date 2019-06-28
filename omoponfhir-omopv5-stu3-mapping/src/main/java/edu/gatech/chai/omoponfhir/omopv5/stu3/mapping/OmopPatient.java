@@ -886,8 +886,6 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 					if (fPersons.size() > 0) {
 						fperson = fPersons.get(0);
 						omopId = fperson.getId();
-						fperson = new FPerson();
-
 						break;
 					}
 				}
@@ -906,6 +904,10 @@ public class OmopPatient extends BaseOmopResource<USCorePatient, FPerson, FPerso
 			}
 		}
 
+		if (fperson == null) {
+			fperson = new FPerson();			
+		}
+		
 		if (personSourceValue != null) {
 			fperson.setPersonSourceValue(personSourceValue);
 			if (personSourceValue.startsWith("SS^")) {

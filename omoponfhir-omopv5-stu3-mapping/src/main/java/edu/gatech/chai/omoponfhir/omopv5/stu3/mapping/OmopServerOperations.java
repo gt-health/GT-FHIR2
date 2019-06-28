@@ -153,6 +153,7 @@ public class OmopServerOperations {
 					continue;
 				observation.setSubject(new Reference(refIdType));
 
+				logger.debug("Setting patient to Obs: "+observation.getSubject().getReference());
 				Long fhirId = OmopObservation.getInstance().toDbase(observation, null);
 				BundleEntryComponent newEntry;
 				if (fhirId == null || fhirId == 0L) {

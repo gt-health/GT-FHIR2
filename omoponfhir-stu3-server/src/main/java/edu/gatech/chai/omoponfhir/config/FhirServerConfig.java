@@ -39,7 +39,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScans(value = { @ComponentScan("edu.gatech.chai.omopv5.jpa.dao"),
 		@ComponentScan("edu.gatech.chai.omopv5.dba.service"),
 		@ComponentScan("edu.gatech.chai.smart.jpa.dao"),
-		@ComponentScan("edu.gatech.chai.smart.jpa.service") })
+		@ComponentScan("edu.gatech.chai.smart.jpa.service")})
 @ImportResource({
     "classpath:database-config.xml"
 })

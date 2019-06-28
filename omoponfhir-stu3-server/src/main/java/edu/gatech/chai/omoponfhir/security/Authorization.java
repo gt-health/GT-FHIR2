@@ -55,6 +55,8 @@ import ca.uhn.fhir.rest.api.server.RequestDetails;
  *
  */
 public class Authorization {
+	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(Authorization.class);
+
 	private String url;
 	private String clientId;
 	private String clientSecret;
@@ -276,7 +278,7 @@ public class Authorization {
 		String authString = request.getHeader("Authorization");
 		if (authString == null) return false;
 		
-		System.out.println("asBasicAuth auth header:"+authString);
+		logger.debug("asBasicAuth auth header:"+authString);
 //		String[] credential = OAuthUtils.decodeClientAuthenticationHeader(authString);
 		
 		if (authString.regionMatches(0, "Basic", 0, 5) == false) return false; // Not a basic Auth
@@ -291,7 +293,7 @@ public class Authorization {
 		userId = credential[0];
 		password = credential[1];
 		
-		System.out.println("asBasicAuth:"+userId+":"+password);
+		logger.debug("asBasicAuth:"+userId+":"+password);
 		
 		if (userId.equalsIgnoreCase(clientId) && password.equalsIgnoreCase(clientSecret))
 			return true;

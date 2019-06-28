@@ -1801,9 +1801,9 @@ public class OmopObservation extends BaseOmopResource<Observation, FObservationV
 		if (retId == null)
 			return null;
 
-		// Check method in FHIR. If we hacve method, check the concept ID if it's
+		// Check method in FHIR. If we have method, check the concept ID if it's
 		// codeable concept and put
-		// entry in the relationship table. If test, use Note table and put the
+		// entry in the relationship table. If text, use Note table and put the
 		// relationship in relationship table.
 		CodeableConcept methodCodeable = fhirResource.getMethod();
 		List<Coding> methodCodings = methodCodeable.getCoding();

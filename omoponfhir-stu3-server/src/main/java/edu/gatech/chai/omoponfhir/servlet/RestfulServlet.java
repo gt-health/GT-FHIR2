@@ -126,6 +126,10 @@ public class RestfulServlet extends RestfulServer {
 		
 		DocumentReferenceResourceProvider documentReferenceResourceProvider = new DocumentReferenceResourceProvider();
 		providers.add(documentReferenceResourceProvider);		
+
+		ConceptMapResourceProvider conceptMapResourceProvider = new ConceptMapResourceProvider();
+		conceptMapResourceProvider.setFhirContext(getFhirContext());
+		providers.add(conceptMapResourceProvider);
 		
 		setResourceProviders(providers);
 

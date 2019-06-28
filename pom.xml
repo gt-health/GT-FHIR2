@@ -106,10 +106,10 @@
 		<phloc_schematron_version>2.7.1</phloc_schematron_version>
 		<phloc_commons_version>4.4.11</phloc_commons_version>
 		<spring_version>5.0.8.RELEASE</spring_version>
-		<spring_data_version>2.0.9.RELEASE</spring_data_version>
+		<spring_data_version>2.1.8.RELEASE</spring_data_version>
 		<spring-boot.version>2.0.4.RELEASE</spring-boot.version>
 		<thymeleaf-version>3.0.9.RELEASE</thymeleaf-version>
-		<jackson_version>2.9.8</jackson_version>
+		<jackson_version>2.9.9</jackson_version>
 
 		<!-- We are aiming to still work on a very old version of SLF4j even though 
 			we depend on the newest, just to be nice to users of the API. This version 

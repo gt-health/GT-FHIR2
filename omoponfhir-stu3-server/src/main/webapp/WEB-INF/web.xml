@@ -44,13 +44,9 @@
 		<param-value>http://localhost:8080/</param-value>
 	</context-param>
 	<servlet>
-		<servlet-name>SmartServices</servlet-name>
-		<servlet-class>edu.gatech.chai.omoponfhir.smart.servlet.SmartServices
+		<servlet-name>SmartAuthServices</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
 		</servlet-class>
-		<init-param>
-			<param-name>introspectUrl</param-name>
-			<param-value>http://docker.for.mac.localhost:8060/introspect</param-value>
-		</init-param>
 		<init-param>
 			<param-name>client_id</param-name>
 			<param-value>client_omop</param-value>
@@ -62,8 +58,8 @@
 		<load-on-startup>3</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>SmartServices</servlet-name>
-		<url-pattern>/fhir/_services/smart/Launch/*</url-pattern>
+		<servlet-name>SmartAuthServices</servlet-name>
+		<url-pattern>/smart/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>spring</servlet-name>
@@ -109,12 +105,8 @@
 			<param-name>clientSecret</param-name>
 			<param-value>secret</param-value>
 		</init-param>
-<!-- 
-		<init-param>
-			<param-name>localByPass</param-name>
-			<param-value>True</param-value>
-		</init-param>
- -->
+		<!-- <init-param> <param-name>localByPass</param-name> <param-value>True</param-value> 
+			</init-param> -->
 		<init-param>
 			<param-name>readOnly</param-name>
 			<param-value>True</param-value>
